@@ -71,6 +71,7 @@ runcmd:
   - [ /usr/bin/cp, -Ra, /etc/ssh/ssh_host_rsa_key.pub, /home/ubuntu/.ssh/id_rsa.pub ]
   - [ /usr/bin/chown, -R, ubuntu:ubuntu, /home/ubuntu/.ssh ]
   - [ /usr/bin/chown, -R, ubuntu:ubuntu, /home/ubuntu ]
+  - [ /usr/bin/update-alternatives, --set, editor, /usr/bin/vim.basic ]
 
 power_state:
   mode: reboot
