@@ -16,14 +16,15 @@ package_update: true
 packages:
   - vsftpd
   - iptables-persistent
+  - sipcalc
 write_files:
 - encoding: b64
-  content: IyEvYmluL3NoCgpbIC1mICIvZXRjL25ldHBsYW4vNTEtc3RhdGljLnlhbWwiIF0gJiYgZXhpdCAwCgp3aGlsZSBbICEgLWYgL2V0Yy9uZXRwbGFuLzUwLWNsb3VkLWluaXQueWFtbCBdOwpkbwogICAgICAgIHNsZWVwIDEKZG9uZQoKSUZBQ0U9JChncmVwICdzZXQtbmFtZTonIC9ldGMvbmV0cGxhbi81MC1jbG91ZC1pbml0LnlhbWwgfCB0ciAtZCBbOnNwYWNlOl0gfCBjdXQgLWYyIC1kJzonKQoKcHJpbnRmICduZXR3b3JrOlxuICBldGhlcm5ldHM6XG4gICAgJXM6XG4gICAgICBhZGRyZXNzZXM6IFsgMTk4LjE5LjAuMi8yMCBdXG4gIHZlcnNpb246IDInICRJRkFDRSB8IHRlZSAvZXRjL25ldHBsYW4vNTEtc3RhdGljLnlhbWwK
+  content: IyEvYmluL3NoCgpbIC1mICIvZXRjL25ldHBsYW4vNTEtc3RhdGljLnlhbWwiIF0gJiYgZXhpdCAwCgp3aGlsZSBbICEgLWYgL2V0Yy9uZXRwbGFuLzUwLWNsb3VkLWluaXQueWFtbCBdOwpkbwogICAgICAgIHNsZWVwIDEKZG9uZQoKSUZBQ0U9JChncmVwICdzZXQtbmFtZTonIC9ldGMvbmV0cGxhbi81MC1jbG91ZC1pbml0LnlhbWwgfCB0ciAtZCBbOnNwYWNlOl0gfCBjdXQgLWYyIC1kJzonKQoKcHJpbnRmICduZXR3b3JrOlxuICBldGhlcm5ldHM6XG4gICAgJXM6XG4gICAgICBhZGRyZXNzZXM6IFsgMTk4LjIzLjAuMS8yMCBdXG4gIHZlcnNpb246IDInICRJRkFDRSB8IHRlZSAvZXRjL25ldHBsYW4vNTEtc3RhdGljLnlhbWwK
   owner: root:root
   path: /etc/dynamicaddress.sh
   permissions: '0755'
 - encoding: b64
-  content: CjE5OC4xOS4wLjEgY29udHJvbAoxOTguMTkuMC4yIG5vZGUxCjE5OC4xOS4wLjMgbm9kZTIKMTk4LjE5LjE1LjI1NCBob3N0MQoK
+  content: CjE5OC4yMy4wLjEgY3AxCjE5OC4yMy4wLjIgY3AyCjE5OC4yMy4xLjEgd29ya2VyMQoxOTguMjMuMS4yIHdvcmtlcjIKMTk4LjIzLjE1LjI1NCBlZGdlCgo=
   owner: root:root
   path: /etc/cloud/templates/hosts.debian.tmpl
   append: true
@@ -64,7 +65,7 @@ bootcmd:
   - [ /usr/sbin/iptables, -t, mangle, -A, POSTROUTING, -p, tcp, --tcp-flags, 'SYN,RST', SYN, -j, TCPMSS, --set-mss, 1300 ]
   - [ /usr/sbin/ip6tables, -t, mangle, -A, POSTROUTING, -p, tcp, --tcp-flags, 'SYN,RST', SYN, -j, TCPMSS, --set-mss, 1300 ]
 runcmd:
-  - [ /usr/bin/cloud-init, single, --name, cc_write_files, --frequency, always ]
+  - [ /usr/bin/cloud-init, single, --name, cc_write_files, --frequency, once-per-instance ]
   - [ /usr/bin/sh, -c, /etc/dynamicaddress.sh ]
   - [ /usr/bin/systemctl, enable, NetworkManager-wait-online.service ]
   - [ /usr/bin/cp, -Ra, /etc/ssh/ssh_host_rsa_key, /home/ubuntu/.ssh/id_rsa ]
